@@ -1,5 +1,6 @@
 package com.itb.inf2bm.pizzaria.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,8 +18,10 @@ public class Categoria {
 
     // Atributos de apoio
     @Transient
+    @JsonIgnore
     private String mensagemErro = "";
     @Transient
+    @JsonIgnore
     private boolean isValid = true;
 
     public Long getId() {
@@ -59,6 +62,10 @@ public class Categoria {
 
     public boolean validarCategoria(){
 
+        if(nome == null || nome.isEmpty()) {
+            mensagemErro += "O nome da categoria é obrigatório:";
+            isValid = false;
+        }
         return isValid;
     }
 
