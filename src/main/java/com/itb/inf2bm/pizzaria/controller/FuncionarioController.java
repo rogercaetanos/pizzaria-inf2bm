@@ -51,20 +51,20 @@ public class FuncionarioController {
         try {
             return ResponseEntity.ok().body(categoriaService.listarCategoriaPorId(Long.parseLong(id)));
 
-        }catch (NumberFormatException ex){
-            throw new BadRequest("'"+ id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
+        } catch (NumberFormatException ex) {
+            throw new BadRequest("'" + id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
         }
     }
 
     // @PutMapping: Complementação da url principal, utilizado exclusivamente para UPDATE
-    @PutMapping ("/categoria/{id}")
+    @PutMapping("/categoria/{id}")
     @Transactional
     public ResponseEntity<Categoria> atualizarCategoria(@RequestBody Categoria categoria, @PathVariable(value = "id") String id) {
-        try{
+        try {
             return ResponseEntity.ok().body(categoriaService.atualizarCategoria(categoria, Long.parseLong(id)));
 
-        }catch (NumberFormatException ex){
-            throw new BadRequest("'"+ id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
+        } catch (NumberFormatException ex) {
+            throw new BadRequest("'" + id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
         }
 
     }
@@ -72,15 +72,28 @@ public class FuncionarioController {
     // @DeleteMapping: Complementação da url principal, utilizado exclusivamente para EXCLUSÃO FÍSICA
 
     @DeleteMapping("/categoria/{id}")
-    public  ResponseEntity<Object> deletarCategoria(@PathVariable(value = "id") String id) {
-        try{
-            if(categoriaService.deletarCategoria(Long.parseLong(id))) {
+    public ResponseEntity<Object> deletarCategoria(@PathVariable(value = "id") String id) {
+        try {
+            if (categoriaService.deletarCategoria(Long.parseLong(id))) {
                 return ResponseEntity.ok().body("Categoria com o id " + id + " excluída com sucesso");
             }
-        }catch (NumberFormatException ex){
-            throw new BadRequest("'"+ id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
+        } catch (NumberFormatException ex) {
+            throw new BadRequest("'" + id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
         }
         return ResponseEntity.ok().body("Não foi possível a exclusão da categoria com o id " + id);
     }
+
+    /*
+      Exercício
+
+      "Categoria"
+
+      Exclusão Lógica: Alterar o codStatus de
+      categoria para false
+
+      * UPDATE
+
+
+    */
 
 }
