@@ -31,7 +31,8 @@ public class FuncionarioController {
     @GetMapping("/categoria")
     public ResponseEntity<List<Categoria>> listarTodasCategorias() {
 
-        return ResponseEntity.ok().body(categoriaService.listarTodasCategorias());
+       // return ResponseEntity.ok().body(categoriaService.listarTodasCategorias());
+        return ResponseEntity.ok().body(categoriaService.listarTodasCategoriasAtivas());
     }
 
     // @PostMapping: Utilizado para persistência de dados "INSERÇÃO", ou seja, CADASTRO DE DADOS
@@ -49,7 +50,8 @@ public class FuncionarioController {
     @GetMapping("/categoria/{id}")
     public ResponseEntity<Categoria> listarCategoriaPorId(@PathVariable(value = "id") String id) {
         try {
-            return ResponseEntity.ok().body(categoriaService.listarCategoriaPorId(Long.parseLong(id)));
+            //return ResponseEntity.ok().body(categoriaService.listarCategoriaPorId(Long.parseLong(id)));
+            return ResponseEntity.ok().body(categoriaService.listarCategoriaPorIdAtiva(Long.parseLong(id)));
 
         } catch (NumberFormatException ex) {
             throw new BadRequest("'" + id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
@@ -96,4 +98,15 @@ public class FuncionarioController {
 
     */
 
+    // Object: Representa qualquer tipo de Objeto: produto, categoria, pedido, item, String, etc... "GENÉRICO"!
+    @PutMapping("/delete-logic/categoria/{id}")
+    @Transactional
+    public ResponseEntity<Object> deletarCategoriaLogic(@PathVariable(value = "id") String id) {
+        try {
+                Categoria categoria = categoriaService.deletarCategoriaLogic(Long.parseLong(id));
+                return ResponseEntity.ok().body("Categoria com o id: " + categoria.getId() + " excluída com sucesso!");
+        } catch (NumberFormatException ex) {
+            throw new BadRequest("'" + id + "' não é um número inteiro válido. Por favor, forneça um valor inteiro, como 10.");
+        }
+    }
 }
